@@ -169,6 +169,16 @@ tool_box.h
 /home/doctorant/Code/Lanny/tool_box.h
 opencv2/opencv.hpp
 -
+opencv2/core.hpp
+/home/doctorant/Code/Lanny/opencv2/core.hpp
+opencv2/features2d.hpp
+/home/doctorant/Code/Lanny/opencv2/features2d.hpp
+opencv2/imgcodecs.hpp
+/home/doctorant/Code/Lanny/opencv2/imgcodecs.hpp
+opencv2/highgui.hpp
+/home/doctorant/Code/Lanny/opencv2/highgui.hpp
+opencv2/xfeatures2d.hpp
+/home/doctorant/Code/Lanny/opencv2/xfeatures2d.hpp
 vector
 -
 string
@@ -3102,9 +3112,19 @@ opencv2/viz/viz3d.hpp
 opencv2/viz/types.hpp
 -
 
+/usr/local/include/opencv2/xfeatures2d.hpp
+opencv2/features2d.hpp
+/usr/local/include/opencv2/opencv2/features2d.hpp
+opencv2/xfeatures2d/nonfree.hpp
+/usr/local/include/opencv2/opencv2/xfeatures2d/nonfree.hpp
+
 /usr/local/include/opencv2/xfeatures2d/cuda.hpp
 opencv2/core/cuda.hpp
 /usr/local/include/opencv2/xfeatures2d/opencv2/core/cuda.hpp
+
+/usr/local/include/opencv2/xfeatures2d/nonfree.hpp
+opencv2/features2d.hpp
+/usr/local/include/opencv2/xfeatures2d/opencv2/features2d.hpp
 
 /usr/local/include/opencv2/ximgproc/disparity_filter.hpp
 opencv2/core.hpp

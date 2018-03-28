@@ -528,7 +528,9 @@ CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/opencv2/viz/types.hpp
 CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/opencv2/viz/viz3d.hpp
 CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/opencv2/viz/vizcore.hpp
 CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/opencv2/viz/widgets.hpp
+CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/opencv2/xfeatures2d.hpp
 CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/opencv2/xfeatures2d/cuda.hpp
+CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/opencv2/ximgproc/disparity_filter.hpp
 CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/pcl-1.8/pcl/ModelCoefficients.h
 CMakeFiles/Lanny.dir/Lanny.cpp.o: /usr/local/include/pcl-1.8/pcl/PCLHeader.h
@@ -1693,5 +1695,7 @@ CMakeFiles/Lanny.dir/tool_box.cpp.o: /usr/local/include/opencv2/viz/types.hpp
 CMakeFiles/Lanny.dir/tool_box.cpp.o: /usr/local/include/opencv2/viz/viz3d.hpp
 CMakeFiles/Lanny.dir/tool_box.cpp.o: /usr/local/include/opencv2/viz/vizcore.hpp
 CMakeFiles/Lanny.dir/tool_box.cpp.o: /usr/local/include/opencv2/viz/widgets.hpp
+CMakeFiles/Lanny.dir/tool_box.cpp.o: /usr/local/include/opencv2/xfeatures2d.hpp
 CMakeFiles/Lanny.dir/tool_box.cpp.o: /usr/local/include/opencv2/xfeatures2d/cuda.hpp
+CMakeFiles/Lanny.dir/tool_box.cpp.o: /usr/local/include/opencv2/xfeatures2d/nonfree.hpp
 

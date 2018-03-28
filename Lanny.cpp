@@ -107,7 +107,6 @@ int main(int argc, char const *argv[]){
     // Transformation matrice
     Eigen::Matrix4f transformationMatrix_old = Eigen::Matrix4f::Identity ();
 
-
     int num_iter = 0;
 
     // Loop over all images
@@ -169,14 +168,15 @@ int main(int argc, char const *argv[]){
         pcl::PointCloud<pcl::PointXYZRGB> merged_dense = *cloud_dense_0;
         merged_dense += *cloud_dense_1_t;
 
-
+        // Apply the old transformation for the final global point cloud
         pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_1_t2 (new pcl::PointCloud<pcl::PointXYZRGB> ());
         pcl::transformPointCloud( *cloud_dense_1_t , *cloud_dense_1_t2 , transformationMatrix_old);
         Final_dense += *cloud_dense_1_t2;
 
         // Save it
-        pcl::io::savePLYFileBinary (result_path + "merged_dense_" + std::to_string(++num_iter) +".ply", merged_dense);
-        pcl::io::savePLYFileBinary (result_path + "Final_dense_" + std::to_string(num_iter) +".ply", Final_dense);
+        pcl::io::savePLYFileBinary (result_path + "merged_sparse_" + std::to_string(num_iter) +".ply", *final_sparse_ptr);
+        pcl::io::savePLYFileBinary (result_path + "merged_dense_" + std::to_string(num_iter) +".ply", merged_dense);
+        //pcl::io::savePLYFileBinary (result_path + "Final_dense_" + std::to_string(num_iter++) +".ply", Final_dense);
 
         // Vizualisation
         if(display3D){
@@ -200,9 +200,12 @@ int main(int argc, char const *argv[]){
         }
 
         // Switch variables
-        cloud_dense_0  = cloud_dense_1_t;
-        cloud_sparse_0 = cloud_sparse_1;
-        transformationMatrix_old *= transformationMatrix_new;
+        //cloud_dense_0  = cloud_dense_1;
+        //cloud_sparse_0 = cloud_sparse_1;
+        transformationMatrix_old = transformationMatrix_new;
+
+        pcl::copyPointCloud(*cloud_dense_1, *cloud_dense_0);
+        pcl::copyPointCloud(*cloud_sparse_1, *cloud_sparse_0);
 
     }
     closedir (dir);
