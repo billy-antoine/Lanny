@@ -32,14 +32,18 @@ void matToPointXYZ(cv::Mat &color, cv::Mat &depth,
   }
 }
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr MatToPoinXYZ(cv::Mat OpencVPointCloud, cv::Mat color){
-     /*
-     *  Function: Get from a Mat to pcl pointcloud datatype
-     *  In: cv::Mat
-     *  Out: pcl::PointCloud
-     */
 
-     pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGB>);//(new pcl::pointcloud<pcl::pointXYZ>);
+/*pcl::PointCloud<pcl::PointXYZRGB>::Ptr VectorToPCL(cv::vector<Point2f> points){
+
+     pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGB>);
+
+}*/
+
+
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr MatToPoinXYZ(cv::Mat OpencVPointCloud, cv::Mat color){
+
+
+     pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_ptr(new pcl::PointCloud<pcl::PointXYZRGB>);
 
      for(int i=0;i<OpencVPointCloud.rows;i++){
          for(int j=0;j<OpencVPointCloud.cols;j++){

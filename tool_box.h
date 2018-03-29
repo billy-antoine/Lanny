@@ -22,4 +22,6 @@
 
 void getCannyMask(cv::Mat &inputImg, cv::Mat &dispMap, cv::Mat &outputImg);
 
+
+void getFeaturesMask(cv::Mat &img_0, cv::Mat &img_1, cv::Mat &dispMap_0, cv::Mat &dispMap_1, cv::Mat &featureMap_0, cv::Mat &featureMap_1);
 #endif

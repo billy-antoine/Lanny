@@ -86,22 +86,24 @@ int main(int argc, char const *argv[]){
     pcl::io::savePLYFileBinary (result_path + "original_dense" +".ply", *cloud_dense_0);
 
     // sparse
-    cv::Mat cannied_0;
-    getCannyMask(left_0, dispMap_0, cannied_0);
-    cv::reprojectImageTo3D(cannied_0, points_sparse_0, Q, true, -1);
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_0 = MatToPoinXYZ(points_sparse_0, left_0);
+    //cv::Mat cannied_0;
+    //getCannyMask(left_0, dispMap_0, cannied_0);
+    //cv::reprojectImageTo3D(cannied_0, points_sparse_0, Q, true, -1);
+    //pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_0 = MatToPoinXYZ(points_sparse_0, left_0);
 
+
+    // Variables initialisation
+    cv::Mat left_1, right_1, dispMap_1, points_dense_1, cannied_1, points_sparse_1;
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_0   (new pcl::PointCloud<pcl::PointXYZRGB> ());
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_1    (new pcl::PointCloud<pcl::PointXYZRGB> ());
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_1_t  (new pcl::PointCloud<pcl::PointXYZRGB> ());
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_1   (new pcl::PointCloud<pcl::PointXYZRGB> ());
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_1_t (new pcl::PointCloud<pcl::PointXYZRGB> ());
 
     // Final point clouds
     pcl::PointCloud<pcl::PointXYZRGB> Final_sparse = *cloud_sparse_0;
     pcl::PointCloud<pcl::PointXYZRGB> Final_dense  = *cloud_dense_0;
 
-    // Variables initialisation
-    cv::Mat left_1, right_1, dispMap_1, points_dense_1, cannied_1, points_sparse_1;
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_1    (new pcl::PointCloud<pcl::PointXYZRGB> ());
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_1_t  (new pcl::PointCloud<pcl::PointXYZRGB> ());
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_1   (new pcl::PointCloud<pcl::PointXYZRGB> ());
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_1_t (new pcl::PointCloud<pcl::PointXYZRGB> ());
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr final_sparse_ptr(&Final_sparse);
 
     // Transformation matrice
@@ -134,17 +136,26 @@ int main(int argc, char const *argv[]){
             cv::waitKey(50);
         }
 
-        // Reprojection dense
+
+        //-- Reprojection dense
         cv::reprojectImageTo3D(dispMap_1, points_dense_1, Q, true, -1);
         cloud_dense_1 = MatToPoinXYZ(points_dense_1, left_1);
 
-        // Reprojection sparse
-        getCannyMask(left_1, dispMap_1, cannied_1);
-        cv::reprojectImageTo3D(cannied_1, points_sparse_1, Q, true, -1);
+        //-- Reprojection sparse
+        //getCannyMask(left_1, dispMap_1, cannied_1);
+        //cv::reprojectImageTo3D(cannied_1, points_sparse_1, Q, true, -1);
+
+        cv::Mat featureMap_0, featureMap_1;
+        getFeaturesMask(left_0, left_1, dispMap_0, dispMap_1, featureMap_0, featureMap_1);
+
+        cv::reprojectImageTo3D(featureMap_0, points_sparse_0, Q, true, -1);
+        cv::reprojectImageTo3D(featureMap_1, points_sparse_1, Q, true, -1);
+
+        cloud_sparse_0 = MatToPoinXYZ(points_sparse_0, left_0);
         cloud_sparse_1 = MatToPoinXYZ(points_sparse_1, left_1);
 
-        // DisparityMaps fusion
-        // ICP
+        //-- DisparityMaps fusion
+        //-- ICP
         pcl::IterativeClosestPoint<pcl::PointXYZRGB, pcl::PointXYZRGB> icp;
         icp.setTransformationEpsilon (1e-8);
         icp.setMaximumIterations (150);
@@ -174,38 +185,43 @@ int main(int argc, char const *argv[]){
         Final_dense += *cloud_dense_1_t2;
 
         // Save it
-        pcl::io::savePLYFileBinary (result_path + "merged_sparse_" + std::to_string(num_iter) +".ply", *final_sparse_ptr);
-        pcl::io::savePLYFileBinary (result_path + "merged_dense_" + std::to_string(num_iter) +".ply", merged_dense);
-        //pcl::io::savePLYFileBinary (result_path + "Final_dense_" + std::to_string(num_iter++) +".ply", Final_dense);
+        //pcl::io::savePLYFileBinary (result_path + "merged_sparse_" + std::to_string(num_iter) +".ply", *final_sparse_ptr);
+        //pcl::io::savePLYFileBinary (result_path + "merged_dense_" + std::to_string(num_iter) +".ply", merged_dense);
+        pcl::io::savePLYFileBinary (result_path + "Final_dense_" + std::to_string(num_iter++) +".ply", Final_dense);
 
         // Vizualisation
         if(display3D){
             // Initialise viewer
             boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer (new pcl::visualization::PCLVisualizer("3D Viewer"));
             viewer->setBackgroundColor(0,0,0);
-            viewer->addCoordinateSystem(0.1);
+            viewer->addCoordinateSystem(0.1);            
 
             // Color point clouds
-            pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> single_color1 (cloud_dense_1_t,  20, 100, 200);
-            pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> single_color2 (cloud_dense_0  , 200, 50 , 50 );
+            pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> single_color1 (cloud_sparse_1_t,  20, 100, 200);
+            pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> single_color2 (cloud_sparse_0  , 200, 50 , 50 );
 
-            viewer->addPointCloud<pcl::PointXYZRGB> (cloud_dense_1_t, single_color1, "sample_cloud_1");
-            viewer->addPointCloud<pcl::PointXYZRGB> (cloud_dense_0  , single_color2, "sample_cloud_2");
+            viewer->addPointCloud<pcl::PointXYZRGB> (cloud_sparse_1_t, single_color1, "sample_cloud_1");
+            viewer->addPointCloud<pcl::PointXYZRGB> (cloud_sparse_0  , single_color2, "sample_cloud_2");
+            viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "sample_cloud_1");
+            viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "sample_cloud_2");
 
             // Viewer loop
             while(!viewer->wasStopped()){
                   viewer->spinOnce();
                   boost::this_thread::sleep (boost::posix_time::microseconds(100000));
             }
+
         }
 
         // Switch variables
         //cloud_dense_0  = cloud_dense_1;
         //cloud_sparse_0 = cloud_sparse_1;
-        transformationMatrix_old = transformationMatrix_new;
+        transformationMatrix_old *= transformationMatrix_new;
 
         pcl::copyPointCloud(*cloud_dense_1, *cloud_dense_0);
         pcl::copyPointCloud(*cloud_sparse_1, *cloud_sparse_0);
+        left_1.copyTo(left_0);
+        dispMap_1.copyTo(dispMap_0);
 
     }
     closedir (dir);
