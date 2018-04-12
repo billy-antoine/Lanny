@@ -7,7 +7,6 @@ SET(CMAKE_CXX_FLAGS "-std=c++0x -fopenmp -msse4.1 -mavx2")
 find_package(OpenCV 3.4 REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-
 set(OPENNI2_INCLUDE_DIRS "/home/doctorant/libs/OpenNI2/Include")
 set(OPENNI2_LIBRARIES "/home/doctorant/libs/OpenNI2/Bin/x64-Release")
 

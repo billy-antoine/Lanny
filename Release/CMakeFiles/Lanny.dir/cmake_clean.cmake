@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Lanny.dir/Lanny.cpp.o"
   "Lanny.pdb"
   "Lanny"
+  "Lanny.pdb"
+  "CMakeFiles/CMakeRelink.dir/Lanny"
 )
 
 # Per-language clean rules from dependency scanning.

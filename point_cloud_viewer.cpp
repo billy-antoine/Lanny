@@ -51,9 +51,9 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr MatToPoinXYZ(cv::Mat OpencVPointCloud, cv
                   if(abs((float)OpencVPointCloud.at<cv::Vec3f>(i, j)[2]) < 5 &&
                      abs((float)OpencVPointCloud.at<cv::Vec3f>(i, j)[2]) > 0){
                    pcl::PointXYZRGB point;
-                   point.x =  (float)OpencVPointCloud.at<cv::Vec3f>(i, j)[0];
-                   point.y =  (float)OpencVPointCloud.at<cv::Vec3f>(i, j)[1];
-                   point.z = -1.0*(float)OpencVPointCloud.at<cv::Vec3f>(i, j)[2];
+                   point.x =  16.0*(float)OpencVPointCloud.at<cv::Vec3f>(i, j)[0];
+                   point.y =  16.0*(float)OpencVPointCloud.at<cv::Vec3f>(i, j)[1];
+                   point.z = -16.0*(float)OpencVPointCloud.at<cv::Vec3f>(i, j)[2];
                    point.r = (float)color.at<cv::Vec3b>(i, j)[2];
                    point.g = (float)color.at<cv::Vec3b>(i, j)[1];
                    point.b = (float)color.at<cv::Vec3b>(i, j)[0];

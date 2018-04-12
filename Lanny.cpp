@@ -13,16 +13,7 @@
 #include <iostream>
 #include <dirent.h>
 
-// PCL
-#include <pcl/common/common_headers.h>
-#include <pcl/io/io.h>
-#include <pcl/io/ply_io.h>
-#include <pcl/io/pcd_io.h>
-#include <pcl/visualization/cloud_viewer.h>
-#include <pcl/visualization/pcl_visualizer.h>
-#include <pcl/console/parse.h>
-#include <pcl/common/transforms.h>
-#include <pcl/registration/icp.h>
+
 
 using namespace cv;
 using namespace std;
@@ -32,30 +23,47 @@ int main(int argc, char const *argv[]){
     // Read parameters
     std::string images_left_path  = argv[1];
     std::string images_right_path = argv[2];
-    std::string result_path       = argv[3];
-
+    std::string positions_path    = argv[3];
+    std::string result_path       = argv[4];
 
     // Open images directories
     DIR *dir;
     DIR *dir_right;
-    struct dirent *ent;
+    DIR *dir_pos;
+
     if ((dir = opendir (argv[1])) == NULL){
         std::cout << "could not open left images directory" << std::endl;
         return -1;
     } 
+
     if ((dir_right = opendir (argv[2])) == NULL){
         std::cout << "could not open right images directory" << std::endl;
         return -1;
     } 
+
+    if ((dir_pos = opendir (argv[3])) == NULL){
+        std::cout << "could not open positions directory" << std::endl;
+        return -1;
+    }
     closedir(dir_right);
 
     // Get file names
+    struct dirent *ent;
     std::vector<std::string> file_names;
     while ((ent = readdir (dir)) != NULL) {
         file_names.push_back(ent->d_name);
     }
 
+    // Get positions file names
+    struct dirent *ent2;
+    std::vector<std::string> positions_names;
+    while ((ent2 = readdir (dir_pos)) != NULL) {
+        positions_names.push_back(ent2->d_name);
+    }
+    closedir(dir_pos);
+
     std::sort(file_names.begin(), file_names.end());
+    std::sort(positions_names.begin(), positions_names.end());
     // Initialisation
 
     // Read images
@@ -65,8 +73,16 @@ int main(int argc, char const *argv[]){
     cv::Mat left_0  = imread(filenameL);
     cv::Mat right_0 = imread(filenameR);
 
+    if(resize_factor < 1){
+        cv::resize(left_0, left_0, cv::Size(), resize_factor, resize_factor);
+        cv::resize(right_0, right_0, cv::Size(), resize_factor, resize_factor);
+    }
+
     // First Disparity map
     cv::Mat dispMap_0 = compute_disparity_map(left_0, right_0);
+
+    cv::Mat dispMap_key;
+    dispMap_0.copyTo(dispMap_key);
 
     // Display
     if(displayImages){
@@ -77,11 +93,27 @@ int main(int argc, char const *argv[]){
         cv::waitKey(50);
     }
 
+
     // Reproject to 3D
     // dense
     cv::Mat points_dense_0, points_sparse_0;
     cv::reprojectImageTo3D(dispMap_0, points_dense_0, Q, true, -1);
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_0 = MatToPoinXYZ(points_dense_0, left_0);
+
+
+    // Read positions
+    std::ifstream pos_file(positions_path+positions_names.at(2));
+    double lat, lon, alt, roll, pitch, yaw;
+    if(!(pos_file >> lat >> lon >> alt >> roll >> pitch >> yaw))
+        cout << "could not read positions" << endl;
+    pos_file.close();
+
+
+    // Apply GPS transformation
+    double x,y,z, xf, yf, zf;
+    llaToXyz(lat, lon, alt, xf, yf, zf);
+
+    translate_rotate(cloud_dense_0, roll, pitch, yaw, Eigen::Vector3d(0,0,0));
 
     pcl::io::savePLYFileBinary (result_path + "original_dense" +".ply", *cloud_dense_0);
 
@@ -99,12 +131,14 @@ int main(int argc, char const *argv[]){
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_1_t  (new pcl::PointCloud<pcl::PointXYZRGB> ());
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_1   (new pcl::PointCloud<pcl::PointXYZRGB> ());
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_sparse_1_t (new pcl::PointCloud<pcl::PointXYZRGB> ());
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr key_sparse       (new pcl::PointCloud<pcl::PointXYZRGB> ());
 
     // Final point clouds
     pcl::PointCloud<pcl::PointXYZRGB> Final_sparse = *cloud_sparse_0;
     pcl::PointCloud<pcl::PointXYZRGB> Final_dense  = *cloud_dense_0;
 
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr final_sparse_ptr(&Final_sparse);
+
 
     // Transformation matrice
     Eigen::Matrix4f transformationMatrix_old = Eigen::Matrix4f::Identity ();
@@ -122,6 +156,11 @@ int main(int argc, char const *argv[]){
         left_1  = imread(filenameL);
         right_1 = imread(filenameR);
 
+        if(resize_factor < 1){
+        cv::resize(left_1, left_1, cv::Size(), resize_factor, resize_factor);
+        cv::resize(right_1, right_1, cv::Size(), resize_factor, resize_factor);
+        }
+
         if(! left_1.data)
             continue;
 
@@ -136,15 +175,8 @@ int main(int argc, char const *argv[]){
             cv::waitKey(50);
         }
 
-
-        //-- Reprojection dense
-        cv::reprojectImageTo3D(dispMap_1, points_dense_1, Q, true, -1);
-        cloud_dense_1 = MatToPoinXYZ(points_dense_1, left_1);
-
+        /*
         //-- Reprojection sparse
-        //getCannyMask(left_1, dispMap_1, cannied_1);
-        //cv::reprojectImageTo3D(cannied_1, points_sparse_1, Q, true, -1);
-
         cv::Mat featureMap_0, featureMap_1;
         getFeaturesMask(left_0, left_1, dispMap_0, dispMap_1, featureMap_0, featureMap_1);
 
@@ -158,7 +190,8 @@ int main(int argc, char const *argv[]){
         //-- ICP
         pcl::IterativeClosestPoint<pcl::PointXYZRGB, pcl::PointXYZRGB> icp;
         icp.setTransformationEpsilon (1e-8);
-        icp.setMaximumIterations (150);
+        icp.setMaxCorrespondenceDistance (0.5);
+        icp.setMaximumIterations (50);
 
         icp.setInputSource(cloud_sparse_1);
         icp.setInputTarget(cloud_sparse_0);
@@ -169,25 +202,55 @@ int main(int argc, char const *argv[]){
     
         // Get new transformation matrice (concatenation by *)
         Eigen::Matrix4f transformationMatrix_new =  icp.getFinalTransformation ();
+
         std::cout<<"trans : \n"<<transformationMatrix_new<<std::endl;
 
-        // Apply transformation matrice
-        pcl::transformPointCloud( *cloud_dense_1 , *cloud_dense_1_t , transformationMatrix_new);
+        // Transform sparse PC
         pcl::transformPointCloud( *cloud_sparse_1, *cloud_sparse_1_t, transformationMatrix_new); 
 
-        // Add it to the global point cloud        
-        pcl::PointCloud<pcl::PointXYZRGB> merged_dense = *cloud_dense_0;
-        merged_dense += *cloud_dense_1_t;
 
-        // Apply the old transformation for the final global point cloud
-        pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_1_t2 (new pcl::PointCloud<pcl::PointXYZRGB> ());
-        pcl::transformPointCloud( *cloud_dense_1_t , *cloud_dense_1_t2 , transformationMatrix_old);
-        Final_dense += *cloud_dense_1_t2;
+        if(num_iter%densification_ratio == 0){        
+            //pcl::PointCloud<pcl::PointXYZRGB> merged_dense = *cloud_dense_0;
+            //merged_dense += *cloud_dense_1_t;
 
-        // Save it
-        //pcl::io::savePLYFileBinary (result_path + "merged_sparse_" + std::to_string(num_iter) +".ply", *final_sparse_ptr);
-        //pcl::io::savePLYFileBinary (result_path + "merged_dense_" + std::to_string(num_iter) +".ply", merged_dense);
-        pcl::io::savePLYFileBinary (result_path + "Final_dense_" + std::to_string(num_iter++) +".ply", Final_dense);
+            cv::reprojectImageTo3D(dispMap_1, points_dense_1, Q, true, -1);
+            cloud_dense_1 = MatToPoinXYZ(points_dense_1, left_1);  
+
+
+            // Get new transformation matrice (concatenation by *)
+            Eigen::Matrix4f transformationMatrix_global =  transformationMatrix_old * transformationMatrix_new;
+
+            // Transform Dense PC
+            pcl::transformPointCloud( *cloud_dense_1 , *cloud_dense_1_t , transformationMatrix_global);
+
+            // Apply the old transformation for the final global point cloud
+            //pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_dense_1_t2 (new pcl::PointCloud<pcl::PointXYZRGB> ());
+            //pcl::transformPointCloud( *cloud_dense_1_t , *cloud_dense_1_t2 , transformationMatrix_old);
+            Final_dense += *cloud_dense_1_t;
+
+            // PC savings
+            //pcl::io::savePLYFileBinary (result_path + "merged_sparse_" + std::to_string(num_iter) +".ply", *final_sparse_ptr);
+            //pcl::io::savePLYFileBinary (result_path + "merged_dense_" + std::to_string(num_iter) +".ply", merged_dense);
+            pcl::io::savePLYFileBinary (result_path + "Final_dense_" + std::to_string(num_iter) +".ply", Final_dense);
+
+        }*/
+
+
+        cv::reprojectImageTo3D(dispMap_1, points_dense_1, Q, true, -1);
+        cloud_dense_1 = MatToPoinXYZ(points_dense_1, left_1);
+
+        // Read positions
+
+        std::ifstream pos_file_1(positions_path+positions_names.at(i));
+
+        if(!(pos_file_1 >> lat >> lon >> alt >> roll >> pitch >> yaw))
+            cout << "could not read positions" << endl;
+        pos_file_1.close();
+
+        // Apply GPS transformation
+        llaToXyz(lat, lon, alt, x, y, z);
+        translate_rotate(cloud_dense_1, roll, pitch, yaw, Eigen::Vector3d ((x-xf) ,(y-yf),(z-zf)));
+
 
         // Vizualisation
         if(display3D){
@@ -214,14 +277,19 @@ int main(int argc, char const *argv[]){
         }
 
         // Switch variables
-        //cloud_dense_0  = cloud_dense_1;
-        //cloud_sparse_0 = cloud_sparse_1;
-        transformationMatrix_old *= transformationMatrix_new;
+        //transformationMatrix_old *= transformationMatrix_new;
 
-        pcl::copyPointCloud(*cloud_dense_1, *cloud_dense_0);
+        /*if(num_iter%densification_ratio == 0){
+            pcl::copyPointCloud(*cloud_dense_1, *cloud_dense_0);
+        }
+
         pcl::copyPointCloud(*cloud_sparse_1, *cloud_sparse_0);
         left_1.copyTo(left_0);
         dispMap_1.copyTo(dispMap_0);
+        num_iter++;*/
+        *cloud_dense_0 += *cloud_dense_1;
+        pcl::io::savePLYFileBinary (result_path + "Final_dense_" + std::to_string(num_iter++) +".ply", *cloud_dense_0);
+
 
     }
     closedir (dir);

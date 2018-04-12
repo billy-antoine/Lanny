@@ -3,8 +3,13 @@
 
 #include <opencv2/highgui.hpp>
 
+//StereoMotion
+int densification_ratio = 25;
+bool use_icp = false;
+
 bool multi_threading = true;
 int ROI_size = 80;
+double resize_factor = 1;
 
 // Calibration parameters
 bool showRectified = true;

@@ -60,15 +60,15 @@ include CMakeFiles/Lanny.dir/flags.make
 CMakeFiles/Lanny.dir/DepthToPly.cpp.o: CMakeFiles/Lanny.dir/flags.make
 CMakeFiles/Lanny.dir/DepthToPly.cpp.o: ../DepthToPly.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/doctorant/Code/Lanny/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Lanny.dir/DepthToPly.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/DepthToPly.cpp.o -c /home/doctorant/Code/Lanny/DepthToPly.cpp
+	/usr/bin/g++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/DepthToPly.cpp.o -c /home/doctorant/Code/Lanny/DepthToPly.cpp
 
 CMakeFiles/Lanny.dir/DepthToPly.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lanny.dir/DepthToPly.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/DepthToPly.cpp > CMakeFiles/Lanny.dir/DepthToPly.cpp.i
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/DepthToPly.cpp > CMakeFiles/Lanny.dir/DepthToPly.cpp.i
 
 CMakeFiles/Lanny.dir/DepthToPly.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lanny.dir/DepthToPly.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/DepthToPly.cpp -o CMakeFiles/Lanny.dir/DepthToPly.cpp.s
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/DepthToPly.cpp -o CMakeFiles/Lanny.dir/DepthToPly.cpp.s
 
 CMakeFiles/Lanny.dir/DepthToPly.cpp.o.requires:
 
@@ -84,15 +84,15 @@ CMakeFiles/Lanny.dir/DepthToPly.cpp.o.provides.build: CMakeFiles/Lanny.dir/Depth
 CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.o: CMakeFiles/Lanny.dir/flags.make
 CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.o: ../point_cloud_viewer.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/doctorant/Code/Lanny/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.o -c /home/doctorant/Code/Lanny/point_cloud_viewer.cpp
+	/usr/bin/g++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.o -c /home/doctorant/Code/Lanny/point_cloud_viewer.cpp
 
 CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/point_cloud_viewer.cpp > CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.i
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/point_cloud_viewer.cpp > CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.i
 
 CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/point_cloud_viewer.cpp -o CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.s
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/point_cloud_viewer.cpp -o CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.s
 
 CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.o.requires:
 
@@ -108,15 +108,15 @@ CMakeFiles/Lanny.dir/point_cloud_viewer.cpp.o.provides.build: CMakeFiles/Lanny.d
 CMakeFiles/Lanny.dir/tool_box.cpp.o: CMakeFiles/Lanny.dir/flags.make
 CMakeFiles/Lanny.dir/tool_box.cpp.o: ../tool_box.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/doctorant/Code/Lanny/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Lanny.dir/tool_box.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/tool_box.cpp.o -c /home/doctorant/Code/Lanny/tool_box.cpp
+	/usr/bin/g++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/tool_box.cpp.o -c /home/doctorant/Code/Lanny/tool_box.cpp
 
 CMakeFiles/Lanny.dir/tool_box.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lanny.dir/tool_box.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/tool_box.cpp > CMakeFiles/Lanny.dir/tool_box.cpp.i
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/tool_box.cpp > CMakeFiles/Lanny.dir/tool_box.cpp.i
 
 CMakeFiles/Lanny.dir/tool_box.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lanny.dir/tool_box.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/tool_box.cpp -o CMakeFiles/Lanny.dir/tool_box.cpp.s
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/tool_box.cpp -o CMakeFiles/Lanny.dir/tool_box.cpp.s
 
 CMakeFiles/Lanny.dir/tool_box.cpp.o.requires:
 
@@ -132,15 +132,15 @@ CMakeFiles/Lanny.dir/tool_box.cpp.o.provides.build: CMakeFiles/Lanny.dir/tool_bo
 CMakeFiles/Lanny.dir/stereo_calib.cpp.o: CMakeFiles/Lanny.dir/flags.make
 CMakeFiles/Lanny.dir/stereo_calib.cpp.o: ../stereo_calib.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/doctorant/Code/Lanny/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Lanny.dir/stereo_calib.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/stereo_calib.cpp.o -c /home/doctorant/Code/Lanny/stereo_calib.cpp
+	/usr/bin/g++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/stereo_calib.cpp.o -c /home/doctorant/Code/Lanny/stereo_calib.cpp
 
 CMakeFiles/Lanny.dir/stereo_calib.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lanny.dir/stereo_calib.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/stereo_calib.cpp > CMakeFiles/Lanny.dir/stereo_calib.cpp.i
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/stereo_calib.cpp > CMakeFiles/Lanny.dir/stereo_calib.cpp.i
 
 CMakeFiles/Lanny.dir/stereo_calib.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lanny.dir/stereo_calib.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/stereo_calib.cpp -o CMakeFiles/Lanny.dir/stereo_calib.cpp.s
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/stereo_calib.cpp -o CMakeFiles/Lanny.dir/stereo_calib.cpp.s
 
 CMakeFiles/Lanny.dir/stereo_calib.cpp.o.requires:
 
@@ -156,15 +156,15 @@ CMakeFiles/Lanny.dir/stereo_calib.cpp.o.provides.build: CMakeFiles/Lanny.dir/ste
 CMakeFiles/Lanny.dir/disparity_map.cpp.o: CMakeFiles/Lanny.dir/flags.make
 CMakeFiles/Lanny.dir/disparity_map.cpp.o: ../disparity_map.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/doctorant/Code/Lanny/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Lanny.dir/disparity_map.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/disparity_map.cpp.o -c /home/doctorant/Code/Lanny/disparity_map.cpp
+	/usr/bin/g++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/disparity_map.cpp.o -c /home/doctorant/Code/Lanny/disparity_map.cpp
 
 CMakeFiles/Lanny.dir/disparity_map.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lanny.dir/disparity_map.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/disparity_map.cpp > CMakeFiles/Lanny.dir/disparity_map.cpp.i
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/disparity_map.cpp > CMakeFiles/Lanny.dir/disparity_map.cpp.i
 
 CMakeFiles/Lanny.dir/disparity_map.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lanny.dir/disparity_map.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/disparity_map.cpp -o CMakeFiles/Lanny.dir/disparity_map.cpp.s
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/disparity_map.cpp -o CMakeFiles/Lanny.dir/disparity_map.cpp.s
 
 CMakeFiles/Lanny.dir/disparity_map.cpp.o.requires:
 
@@ -180,15 +180,15 @@ CMakeFiles/Lanny.dir/disparity_map.cpp.o.provides.build: CMakeFiles/Lanny.dir/di
 CMakeFiles/Lanny.dir/Lanny.cpp.o: CMakeFiles/Lanny.dir/flags.make
 CMakeFiles/Lanny.dir/Lanny.cpp.o: ../Lanny.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/doctorant/Code/Lanny/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Lanny.dir/Lanny.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/Lanny.cpp.o -c /home/doctorant/Code/Lanny/Lanny.cpp
+	/usr/bin/g++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lanny.dir/Lanny.cpp.o -c /home/doctorant/Code/Lanny/Lanny.cpp
 
 CMakeFiles/Lanny.dir/Lanny.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lanny.dir/Lanny.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/Lanny.cpp > CMakeFiles/Lanny.dir/Lanny.cpp.i
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/doctorant/Code/Lanny/Lanny.cpp > CMakeFiles/Lanny.dir/Lanny.cpp.i
 
 CMakeFiles/Lanny.dir/Lanny.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lanny.dir/Lanny.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/Lanny.cpp -o CMakeFiles/Lanny.dir/Lanny.cpp.s
+	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/doctorant/Code/Lanny/Lanny.cpp -o CMakeFiles/Lanny.dir/Lanny.cpp.s
 
 CMakeFiles/Lanny.dir/Lanny.cpp.o.requires:
 
