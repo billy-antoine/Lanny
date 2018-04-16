@@ -34,8 +34,8 @@
 #include <pcl/registration/icp.h>
 
 
-static const double earthRadius = 6378.1370; //km
-static const float PI = 3.14159265;
+static const double earthRadius = 63781370; //km
+static const double PI = 3.14159265;
 
 template<typename T>
 void pop_front(std::vector<T>& vec){

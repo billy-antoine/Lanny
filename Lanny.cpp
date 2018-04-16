@@ -247,9 +247,11 @@ int main(int argc, char const *argv[]){
             cout << "could not read positions" << endl;
         pos_file_1.close();
 
+        cout << "lat: " << lat << " - lon: " << lon << " - alt: " << alt << endl;
         // Apply GPS transformation
         llaToXyz(lat, lon, alt, x, y, z);
         translate_rotate(cloud_dense_1, roll, pitch, yaw, Eigen::Vector3d ((x-xf) ,(y-yf),(z-zf)));
+        cout << "x: " << x-xf << " - y: " << y-yf << " - z: " << z-zf << endl;
 
 
         // Vizualisation

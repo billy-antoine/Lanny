@@ -10,10 +10,10 @@ using namespace Eigen;
 bool compare_DMatches(const cv::DMatch m1, const cv::DMatch m2){ return m1.distance < m2.distance; }
 
 void llaToXyz(double lat, double lon, double alt, double &x, double &y, double &z){
-    //lat = lat*180.0 / PI;
-    //lon = lon*180.0 / PI;
+    lat = lat*180.0 / PI;
+    lon = lon*180.0 / PI;
 
-    double r = earthRadius+alt/1000.0;
+    double r = 6371000+alt; // earth radius + height
 
     z = r * cos(lat)*cos(lon);
     x = r * cos(lat)*sin(lon);
@@ -45,7 +45,7 @@ void translate_rotate(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, double roll, do
     t.setIdentity();
     t.translate(trans);
 
-    std::cout << t.matrix() << std::endl;
+    //std::cout << t.matrix() << std::endl;
     pcl::transformPointCloud( *pc, *pc, t.matrix());
 
     Eigen::AngleAxisd rollAngle(roll, Eigen::Vector3d::UnitZ());
@@ -57,7 +57,7 @@ void translate_rotate(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, double roll, do
     Eigen::Matrix4d tt = Eigen::Matrix4d::Identity();
     //tt.block<3,3>(0,0) = rotationMatrix;
 
-    std::cout << rotationMatrix << std::endl;
+    //std::cout << rotationMatrix << std::endl;
     pcl::transformPointCloud( *pc, *pc, tt);
 
 }
