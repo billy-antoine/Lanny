@@ -49,6 +49,6 @@ void getCannyMask(cv::Mat &inputImg, cv::Mat &dispMap, cv::Mat &outputImg);
 void llaToXyz(double lat, double lon, double alt, double &x, double &y, double &z);
 
 
-void translate_rotate(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, double roll, double pitch, double yaw, Eigen::Vector3d trans);
+Eigen::Matrix4d translate_rotate(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, double roll, double pitch, double yaw, Eigen::Vector3d trans);
 void getFeaturesMask(cv::Mat &img_0, cv::Mat &img_1, cv::Mat &dispMap_0, cv::Mat &dispMap_1, cv::Mat &featureMap_0, cv::Mat &featureMap_1);
 

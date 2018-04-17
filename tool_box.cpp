@@ -13,11 +13,27 @@ void llaToXyz(double lat, double lon, double alt, double &x, double &y, double &
     //lat = lat*180.0 / PI;
     //lon = lon*180.0 / PI;
 
-    double r = earthRadius+alt/1000.0;
+//    double r = earthRadius+alt/1000.0;
 
-    z = r * cos(lat)*cos(lon);
-    x = r * cos(lat)*sin(lon);
-    y = r * sin(lat);
+//    z = r * cos(lat)*cos(lon);
+//    x = r * cos(lat)*sin(lon);
+//    y = r * sin(lat);
+
+
+    double cosLat = cos(lat * PI / 180.0);
+    double sinLat = sin(lat * PI / 180.0);
+    double cosLon = cos(lon * PI / 180.0);
+    double sinLon = sin(lon * PI / 180.0);
+    double rad = 6378137.0;
+    double f = 1.0 / 298.257224;
+    double C = 1.0 / sqrt(cosLat * cosLat + (1 - f) * (1 - f) * sinLat * sinLat);
+    double S = (1.0 - f) * (1.0 - f) * C;
+    double h =0;
+    x = (rad * C + h) * cosLat * cosLon;
+    z = (rad * C + h) * cosLat * sinLon;
+    y = alt;//(rad * S + h) * sinLat;
+
+
 }
 
 
@@ -40,13 +56,12 @@ void getCannyMask(cv::Mat &inputImg, cv::Mat &dispMap, cv::Mat &outputImg){
 
 }
 
-void translate_rotate(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, double roll, double pitch, double yaw, Vector3d trans){
+Eigen::Matrix4d translate_rotate(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, double roll, double pitch, double yaw, Vector3d trans){
     Eigen::Affine3d t;
     t.setIdentity();
     t.translate(trans);
 
-    std::cout << t.matrix() << std::endl;
-    pcl::transformPointCloud( *pc, *pc, t.matrix());
+    std::cout <<"TRANSLATION\n" <<t.matrix() << std::endl;
 
     Eigen::AngleAxisd rollAngle(roll, Eigen::Vector3d::UnitZ());
     Eigen::AngleAxisd yawAngle(yaw, Eigen::Vector3d::UnitY());
@@ -55,10 +70,12 @@ void translate_rotate(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, double roll, do
     Eigen::Quaternion<double> q = rollAngle * yawAngle * pitchAngle;
     Eigen::Matrix3d rotationMatrix = q.matrix();
     Eigen::Matrix4d tt = Eigen::Matrix4d::Identity();
-    //tt.block<3,3>(0,0) = rotationMatrix;
+    tt.block<3,3>(0,0) = rotationMatrix;
 
-    std::cout << rotationMatrix << std::endl;
     pcl::transformPointCloud( *pc, *pc, tt);
+    pcl::transformPointCloud( *pc, *pc, t.matrix());
+
+    return tt + t.matrix();
 
 }
 
@@ -66,7 +83,7 @@ void translate_rotate(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc, double roll, do
 void getFeaturesMask(cv::Mat &img_0, cv::Mat &img_1, cv::Mat &dispMap_0, cv::Mat &dispMap_1, cv::Mat &featureMap_0, cv::Mat &featureMap_1){
 
 	//-- Step 1: Detect the keypoints using SURF Detector, compute the descriptors
-	int minHessian = 400;
+    int minHessian = 500;
 	Ptr<SURF> detector = SURF::create();
 	detector->setHessianThreshold(minHessian);
 
@@ -98,17 +115,19 @@ void getFeaturesMask(cv::Mat &img_0, cv::Mat &img_1, cv::Mat &dispMap_0, cv::Mat
 
 
 	std::vector< DMatch > good_matches = matches;
-	good_matches.resize(50);
 
+
+    good_matches.resize((unsigned long int)std::min((int)good_matches.size(), 72));
+    std::cout <<"NB POINT SPARSE : " <<good_matches.size() << std::endl;
 
 	//-- Draw only "good" matches
-	/*Mat img_matches;
+    Mat img_matches;
 	drawMatches( img_0, keypoints_1, img_1, keypoints_2,
 				good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 				vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 	
 	imshow("matches", img_matches);
-	cv::waitKey(0);*/
+   // cv::waitKey(0);
 
 	//-- Show detected matches
 	cv::Mat mask_0(dispMap_0.size(), CV_8U, cv::Scalar(0));
@@ -122,16 +141,21 @@ void getFeaturesMask(cv::Mat &img_0, cv::Mat &img_1, cv::Mat &dispMap_0, cv::Mat
 		//printf( "-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx );
 	}
 
-	//dilate(mask_0, mask_0, 0, Point(-1, -1), 2, 1, 1);
-	//dilate(mask_1, mask_1, 0, Point(-1, -1), 2, 1, 1);
+    Mat element = getStructuringElement( MORPH_ELLIPSE,
+                            Size( 2*3 + 1, 2*3+1 ),
+                            Point( 3, 3 ) );
+    dilate( mask_0, mask_0, element );
+
+    dilate( mask_1, mask_1, element );
+
 
 	dispMap_0.copyTo(featureMap_0, mask_0);
 	dispMap_1.copyTo(featureMap_1, mask_1);
 
-	/*Mat tmp;
+    Mat tmp;
 	vconcat(mask_0, mask_1, tmp);
 	imshow("featureMap", tmp);
-	waitKey(0);*/
+    waitKey(0);
 
 }
 

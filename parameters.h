@@ -19,7 +19,7 @@ bool calibration = false;
 
 bool writeImage = true;
 bool displayImages = true;
-bool display3D = false;
+bool display3D = true;
 
 cv::Size boardSize(9,6);
 float squareSize = 3.0f;
@@ -62,7 +62,7 @@ float baseline_length=540.0;
 cv::Mat Q = (cv::Mat_<float>(4,4) <<   1., 0., 0., -cx,
                             0., 1., 0., -cy,
                             0., 0., 0., focal,
-                            0., 0., -1., 0);
+                            0., 0., -1, 0);
 
 
 #endif
